@@ -1,5 +1,5 @@
-library(shiny)
-if(!exists("foo", mode="function")) source("Portfolio.R")
+if(!exists("foo", mode="function")) source("Helper.R")
+usePackage('shiny')
 
 internet_data = get_public_data()
 # Define UI for miles per gallon application

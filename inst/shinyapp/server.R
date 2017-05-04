@@ -1,14 +1,14 @@
 ###R server
 
 # Define server logic required to plot various variables against mpg
-library(shiny)
-library(datasets)
-if(!exists("foo", mode="function")) source("Portfolio.R")
-library(data.table)
-library(reshape)
-library(kohonen)
-library(dendextend)
-library(factoextra)
+if(!exists("foo", mode="function")) source("Helper.R")
+usePackage('shiny')
+usePackage('datasets')
+usePackage('data.table')
+usePackage('reshape')
+usePackage('kohonen')
+usePackage('dendextend')
+usePackage('factoextra')
 
 options(shiny.reactlog=TRUE) 
 options(shiny.trace=TRUE)
