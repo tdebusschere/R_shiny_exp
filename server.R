@@ -15,7 +15,7 @@ options(shiny.trace=TRUE)
 # We tweak the "am" field to have nicer factor labels. Since this doesn't
 # rely on any user inputs we can do this once at startup and then use the
 # value throughout the lifetime of the application
-internet_data = get_public_data()
+internet_data =  get_public_data()
 sumdat = aggregate(internet_data$User_id, by = list(Category = internet_data$Path), FUN = length)
 sumdat = sumdat[order(sumdat$x,decreasing=TRUE),]
 Int2 = processing(internet_data,sumdat) 
@@ -48,7 +48,13 @@ shinyServer(function(input, output) {
     ###SOM
     if (input$Methodology == 'SOM') {
      if (input$integer > 20) {     dimnames(trainingdata) = list() }
-     som_model = som( trainingdata[0:input$integer,] ,grid = somgrid(4, 3, "hexagonal")) 
+     xdim =4
+     ydim =3
+     if (((input$xdim * input$ydim) > groups) & ((input$xdim * input$ydim) < input$integer)) { 
+      xdim = input$xdim
+      ydim = input$ydim
+     }
+     som_model = som( trainingdata[0:input$integer,] ,grid = somgrid(xdim, ydim , "hexagonal")) 
      som.hc <- cutree(hclust(dist(som_model$codes[[1]])), groups)
      plot(som_model, type="codes", bgcol=terrain.colors(groups)[som.hc], codeRendering='segments',main = 'SOM Clustering') 
     }
@@ -58,7 +64,7 @@ shinyServer(function(input, output) {
      dist_trainingdata = as.dist(trainingdata)
      hc_trainingdata <- hclust(dist_trainingdata, method =hrclustmethod(input$Algorithm))
      dend <- as.dendrogram(hc_trainingdata)
-     # order it the closest we can to the order of the observations:
+     # order it the closest we can to the order of the observations
      dend <- rotate(dend, 1:input$integer)
      # Color the branches based on the clusters:
      dend <- color_branches(dend, k=groups) 

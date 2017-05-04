@@ -25,6 +25,11 @@ shinyUI(pageWithSidebar(
            "AverageLinkage",
            "Ward",
            "Centroid"))
+     ),
+     conditionalPanel(
+       condition="input.Methodology == 'SOM'",
+       sliderInput("xdim","Xdimension:", min = 1, max = 6, value =4),
+       sliderInput("ydim","Ydimension:", min = 1, max = 5, value =3)
      )
   
    ##only show when clustering type is SOM: select network
